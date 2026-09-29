@@ -7461,6 +7461,9 @@ registerApp({
         frame.append(wait);
         const onMsg = e => { if (e.source === f.contentWindow && e.data && e.data.type === 'sid-card') { wait.remove(); removeEventListener('message', onMsg); } };
         addEventListener('message', onMsg);
+        // "Back to Barsaat OS" at the end of the card: put the card away and show the desktop
+        const onExit = e => { if (e.source === f.contentWindow && e.data && e.data.type === 'sid-card-exit') { removeEventListener('message', onExit); WM.close('sid'); } };
+        addEventListener('message', onExit);
         setTimeout(() => wait.remove(), 15000);
       }
       if (show) setView('page');

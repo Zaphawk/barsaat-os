@@ -4326,6 +4326,7 @@ Q=110,Ul=`var(--f-serif)`,Wl=`var(--f-display)`,Gl=`var(--f-mono)`,Kl=`var(--f-h
         <a class="btn btn-ink ui-send" href="mailto:${du(Bl.email)}?subject=A%20hard%20problem">Email me</a>
         <a class="btn" href="${du(Bl.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>
         <a class="btn" href="#cv">Read the CV <span aria-hidden="true">↓</span></a>
+        <a class="btn ui-os" href="index.html" data-os-exit>Back to Barsaat OS <span aria-hidden="true">→</span></a>
       </div>
       <button type="button" class="ui-again">Unfold my business card</button>
     </div>
@@ -4407,6 +4408,7 @@ bu=e=>{let{start:t,end:n,bendYear:r,bendPct:i}=_u;return e<=r?(e-t)/(r-t)*i:i+(e
       <a class="cv-contact-link" href="${hu.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
       <a class="cv-contact-link" href="${hu.github}" target="_blank" rel="noopener">GitHub</a>
       <a class="cv-contact-link" href="${hu.medium}" target="_blank" rel="noopener">Medium</a>
+      ${e===`real`?`<a class="cv-contact-link cv-os-link" href="index.html" data-os-exit>Back to Barsaat OS →</a>`:``}
     </div>
     ${t}`}function Tu(){return`
   <header class="cv-head">
@@ -4471,8 +4473,8 @@ bu=e=>{let{start:t,end:n,bendYear:r,bendPct:i}=_u;return e<=r?(e-t)/(r-t)*i:i+(e
       <h3 class="cv-tool-group-label">${e.label}</h3>
       <div class="cv-tool-list">${t}</div>
     </div>`}function Mu(){return`
-  <section class="cv-section cv-tools" aria-label="AI tools built">
-    <h2 class="cv-section-label">AI tools built</h2>
+  <section class="cv-section cv-tools" aria-label="Selected AI tools built">
+    <h2 class="cv-section-label">Selected AI tools built</h2>
     <div class="cv-tool-groups">${vu.toolGroups.map(ju).join(``)}</div>
   </section>`}function Nu(){return`
   <section class="cv-section cv-edu-skills">
@@ -4643,6 +4645,30 @@ bu=e=>{let{start:t,end:n,bendYear:r,bendPct:i}=_u;return e<=r?(e-t)/(r-t)*i:i+(e
       .ui-flip span{display:inline;font-size:10px}
     }
     @media (prefers-reduced-motion:reduce){.ui-glint{animation:none}}
+    /* Keep the card usable when WebGL is unavailable, and clear iPhone safe areas. */
+    .ui-top{padding-top:max(clamp(14px,2.4vw,28px),calc(env(safe-area-inset-top) + 10px))}
+    .ui-bottom{padding-bottom:max(clamp(14px,2.4vw,28px),calc(env(safe-area-inset-bottom) + 10px))}
+    .ui-end-actions{bottom:max(clamp(64px,10vh,110px),calc(env(safe-area-inset-bottom) + 64px))}
+    .ui-again{bottom:max(clamp(26px,5vh,56px),calc(env(safe-area-inset-bottom) + 24px))}
+    #webgl-fallback{z-index:6;box-sizing:border-box;color:#f6ead6;background:radial-gradient(circle at 50% 24%,#6b4228 0,#2a1d14 48%,#140d08 100%);place-items:center;padding:max(28px,calc(env(safe-area-inset-top) + 20px)) max(20px,calc(env(safe-area-inset-right) + 20px)) max(28px,calc(env(safe-area-inset-bottom) + 20px)) max(20px,calc(env(safe-area-inset-left) + 20px));display:grid;position:absolute;inset:0}
+    .ui-end-actions .ui-os{background:transparent;color:#f6ead6;border-color:#f6ead680}
+    .ui-end-actions .ui-os:hover,.ui-end-actions .ui-os:focus-visible{background:#f6ead6;color:#1f1a15;border-color:#f6ead6}
+    #cv .cv-os-link{margin-left:auto}
+    #webgl-fallback[hidden]{display:none}
+    .webgl-fallback-card{box-sizing:border-box;background:#f3ead8;color:#1f1a15;border-radius:8px;width:min(90vw,620px);padding:clamp(28px,7vw,64px);box-shadow:0 35px 80px #0009,inset 0 -7px #b3261e;transform:rotate(-1deg)}
+    .webgl-fallback-kicker{font:600 11px/1.3 var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:#b3261e;margin:0 0 18px}
+    .webgl-fallback-card h1{font:500 clamp(38px,8vw,72px)/.96 var(--f-display);letter-spacing:-.025em;margin:0 0 20px}
+    .webgl-fallback-card p{font:400 clamp(18px,3vw,24px)/1.42 var(--f-serif);max-width:40ch;margin:0 0 12px}
+    .webgl-fallback-note{color:#5f554b;font:500 12px/1.5 var(--f-mono)!important;margin-top:20px!important}
+    .webgl-fallback-actions{flex-wrap:wrap;gap:10px;margin-top:28px;display:flex}
+    .webgl-fallback-actions a{color:#f6ead6;font:600 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;background:#1f1a15;border:1px solid #1f1a15;border-radius:999px;min-height:44px;padding:0 18px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+    .webgl-fallback-actions a:first-child{background:#b3261e;border-color:#b3261e}
+    @media (max-width:700px){
+      .ui-cap-timeline{top:calc(68px + env(safe-area-inset-top))}
+      .ui-cap-toast{top:calc(108px + env(safe-area-inset-top))}
+      .webgl-fallback-actions{display:grid;grid-template-columns:1fr}
+      .webgl-fallback-actions a{width:100%;box-sizing:border-box}
+    }
   </style>
 </head>
 <body>
@@ -4651,10 +4677,49 @@ bu=e=>{let{start:t,end:n,bendYear:r,bendPct:i}=_u;return e<=r?(e-t)/(r-t)*i:i+(e
       <div id="stage">
         <canvas id="gl" aria-hidden="true"></canvas>
         <div id="ui"></div>
+        <div id="webgl-fallback" role="region" aria-label="Sid's business card fallback">
+          <article class="webgl-fallback-card">
+            <p class="webgl-fallback-kicker">Siddhant Sethi · Associate Director, AI</p>
+            <h1>My career won’t fit on a business card.</h1>
+            <p>I started in people’s mouths. Now I build AI systems for a 600-person agency.</p>
+            <p class="webgl-fallback-note">The unfolding version needs 3D graphics. The story doesn’t.</p>
+            <nav class="webgl-fallback-actions" aria-label="Continue">
+              <a href="#cv">Read the CV</a>
+              <a href="mailto:drsiddhantsethi11@gmail.com?subject=A%20hard%20problem">Email me</a>
+              <a href="https://www.linkedin.com/in/dr-siddhant-sethi/" target="_blank" rel="noopener">LinkedIn</a>
+              <a href="index.html" data-os-exit>Back to Barsaat OS</a>
+            </nav>
+          </article>
+        </div>
       </div>
       <div id="track" aria-hidden="true"></div>
     </section>
     <section id="cv" aria-label="CV"></section>
   </main>
+  <script>
+    /* Route back to Barsaat OS. Embedded in the Meet Sid window: ask the OS to close it.
+       Standalone: the link's own href (index.html) does the work. */
+    document.addEventListener('click', e => {
+      const a = e.target.closest && e.target.closest('[data-os-exit]');
+      if (!a || window.parent === window) return;
+      e.preventDefault();
+      window.parent.postMessage({ type: 'sid-card-exit' }, '*');
+    });
+  </script>
+  <script>
+    (() => {
+      const fallback = document.getElementById('webgl-fallback');
+      let checks = 0;
+      const timer = window.setInterval(() => {
+        checks += 1;
+        if (window.__sid) {
+          fallback.hidden = true;
+          window.clearInterval(timer);
+        } else if (checks >= 300) {
+          window.clearInterval(timer);
+        }
+      }, 100);
+    })();
+  </script>
 </body>
 </html>
