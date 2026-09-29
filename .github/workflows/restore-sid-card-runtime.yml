@@ -1,0 +1,25 @@
+name: Restore Sid card and fix runtime
+on:
+  push:
+    paths:
+      - .github/workflows/restore-sid-card-runtime.yml
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore full page and fix missing comma
+        shell: bash
+        run: |
+          git show 48a228d3966110193dfef41d29997f2ae2209f2c:sids-card.html > sids-card.html
+          perl -0pi -e 's/(end:`Anyway\. Bring me a hard problem\.\x60})\nQ=110/$1,\nQ=110/' sids-card.html
+          rm .github/workflows/restore-sid-card-runtime.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sids-card.html .github/workflows/restore-sid-card-runtime.yml
+          git commit -m "Restore Sid card and fix runtime"
+          git push
