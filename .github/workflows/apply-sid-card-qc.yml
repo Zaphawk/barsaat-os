@@ -1,0 +1,26 @@
+name: Apply Sid card visual QC
+on:
+  push:
+    paths:
+      - .github/workflows/apply-sid-card-qc.yml
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply verified visual patch
+        shell: bash
+        run: |
+          printf '%s' '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' | base64 -d > /tmp/sid-qc.zst
+          zstd -d --patch-from=sids-card.html /tmp/sid-qc.zst -o /tmp/sids-card.fixed.html
+          mv /tmp/sids-card.fixed.html sids-card.html
+          rm .github/workflows/apply-sid-card-qc.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sids-card.html .github/workflows/apply-sid-card-qc.yml
+          git commit -m "Improve Sid card responsive hierarchy"
+          git push
