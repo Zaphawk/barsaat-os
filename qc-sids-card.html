@@ -1,0 +1,15 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Sid card responsive QC</title>
+<style>
+  *{box-sizing:border-box}html,body{margin:0;background:#59544e;font:13px system-ui,sans-serif;color:#fff}
+  header{height:42px;display:flex;align-items:center;justify-content:center;background:#211a15;letter-spacing:.08em}
+  main{padding:20px;display:flex;justify-content:center}
+  iframe{display:block;border:0;background:#2a170e;box-shadow:0 18px 60px #0009}
+</style>
+<header id="label"></header><main><iframe id="frame" src="sids-card.html#cv-real"></iframe></main>
+<script>
+const q=new URLSearchParams(location.search),w=Number(q.get('w')||390),h=Number(q.get('h')||844);
+frame.width=w;frame.height=h;label.textContent='Responsive QC · '+w+' × '+h;
+</script>
