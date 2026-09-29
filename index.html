@@ -7449,7 +7449,7 @@ registerApp({
     body.append(trick, frame, bar, drop);
     // a page you dropped in wins; otherwise the card. The trick always plays first.
     let page = Store.get('sid-page', null) ? { html: Store.get('sid-page') } : Store.get('sid-url', null) ? { url: Store.get('sid-url') } : CARD;
-    let view = page.builtin ? 'trick' : 'page';
+    let view = 'page'; // Meet Sid opens straight on the card; the trick is one click away
     function load(p, note, show = true) {
       page = p; frame.innerHTML = '';
       const f = h('iframe', { sandbox: 'allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-pointer-lock', title: p.builtin ? "Sid's card" : 'Sid landing page', allow: 'autoplay; fullscreen; clipboard-write' });
@@ -7522,9 +7522,7 @@ registerApp({
       }, 700);
     }
     deal();
-    if (!page.builtin) load(page); else sync();
-    // start printing the card quietly while the trick plays, so it's ready when asked for
-    if (page.builtin) setTimeout(() => { if (page.builtin && !frame.firstChild) load(page, null, false); }, 300);
+    load(page);
     return {
       onHide() { hidden = true; glass(); },
       onShow() { hidden = false; glass(); },
