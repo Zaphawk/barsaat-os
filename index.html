@@ -98,6 +98,7 @@ svg{display:block}
 /* ---------- dock / meter strip ---------- */
 #dock{position:fixed;left:50%;bottom:12px;z-index:6000;height:66px;display:flex;align-items:center;gap:4px;padding:0 8px;border-radius:20px;background:rgba(8,14,19,.74);-webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);border:1px solid var(--line-2);box-shadow:0 24px 60px -14px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.06);translate:-50% 0;transition:translate .7s var(--out),opacity .5s}
 #dock.away{translate:-50% 140%;opacity:0}
+@media (max-width:700px){#dock{max-width:calc(100vw - 16px);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;justify-content:flex-start}#dock::-webkit-scrollbar{display:none}}
 .dock-sep{width:1px;height:34px;background:var(--line-2);margin:0 6px}
 .dock-app{width:50px;height:50px;border-radius:13px;position:relative;display:grid;place-items:center;transition:translate .3s var(--spring),scale .3s var(--spring)}
 .dock-app svg{width:44px;height:44px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45))}
@@ -614,6 +615,12 @@ mark{background:rgba(255,201,51,.32);color:#fff;border-radius:3px;padding:0 1px}
 .sid-bar .search svg{width:14px;height:14px;color:var(--mist-3);flex:none}
 .sid-bar input{flex:1;background:none;border:0;font-size:13px;min-width:0}
 .sid-bar input::placeholder{color:var(--mist-3)}
+@media (max-width:700px){
+  /* on a phone the card is the point: drop the paste-a-link tools, keep one clear button */
+  .sid-bar .search,.sid-bar > .btn:nth-of-type(1){display:none}
+  .sid-bar{padding:10px 12px}
+  .sid-bar .btn{flex:1;white-space:nowrap;justify-content:center}
+}
 .sid-drop{position:absolute;inset:10px;border-radius:16px;border:2px dashed rgba(255,201,51,.6);background:rgba(10,14,18,.85);display:none;place-content:center;text-align:center;gap:6px;z-index:5}
 .sid-drop b{font:400 34px var(--display);color:#FFE2A4}
 .sid-drop span{color:var(--mist-2)}
@@ -7428,6 +7435,8 @@ registerApp({
   w: 1040, h: 680, minW: 460, minH: 420,
   mount(body, win) {
     body.classList.add('sid');
+    // on a phone, give the card the whole screen
+    if (innerWidth < 700) setTimeout(() => { if (!win.max) WM.toggleMax(win); }, 80);
     // the real landing page: Sid's unreasonably long business card, shipped next to this file
     const CARD = { url: 'sids-card.html', builtin: true };
     const ACES = [
