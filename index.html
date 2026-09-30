@@ -625,6 +625,8 @@ mark{background:rgba(255,201,51,.32);color:#fff;border-radius:3px;padding:0 1px}
   .sid:not(.lite) .sid-bar .search,.sid:not(.lite) .sid-bar > .btn:nth-of-type(1){display:none}
   .sid-bar{padding:10px 12px}
   .sid:not(.lite) .sid-bar .btn{flex:1;white-space:nowrap;justify-content:center}
+  /* the card's Sound on / Skip to CV pills fill the top-right on a phone; sit the trick button under them */
+  .sid.lite .sid-bar{top:66px;left:auto;right:16px;transform:none}
 }
 .sid-drop{position:absolute;inset:10px;border-radius:16px;border:2px dashed rgba(255,201,51,.6);background:rgba(10,14,18,.85);display:none;place-content:center;text-align:center;gap:6px;z-index:5}
 .sid-drop b{font:400 34px var(--display);color:#FFE2A4}
