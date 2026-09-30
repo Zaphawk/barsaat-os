@@ -602,24 +602,29 @@ mark{background:rgba(255,201,51,.32);color:#fff;border-radius:3px;padding:0 1px}
 .pc-front small{font-size:11px;line-height:1.35;color:#5b5145}
 .sid-table.merged .pcard:not(.final){translate:var(--mx,0) 0;rotate:calc((var(--i) - 1.5) * 6deg);opacity:0;transition-delay:calc(var(--i) * 60ms)}
 .sid-table.merged .pcard:nth-child(1){--mx:246px}.sid-table.merged .pcard:nth-child(2){--mx:82px}.sid-table.merged .pcard:nth-child(3){--mx:-82px}.sid-table.merged .pcard:nth-child(4){--mx:-246px}
-.pcard.final{position:absolute;left:50%;top:50%;width:240px;height:320px;margin:-160px 0 0 -120px;animation:final .9s var(--spring)}
+.pcard.final{position:absolute;left:50%;top:50%;width:340px;height:320px;margin:-160px 0 0 -170px;animation:final .9s var(--spring)}
 @keyframes final{from{scale:.5;opacity:0;rotate:-8deg}}
 .pc-front.gold{background:linear-gradient(160deg,#FFF3D6,#F2D79A);gap:10px;padding:22px}
 .pc-k.big{font-size:40px;color:#8E1A1A}
 .pcard.final .pc-front p{font-size:15px}
 .pcard.final .pc-front small{font-size:12.5px}
-.pc-acts{display:flex;gap:8px;margin-top:8px}
+.pc-acts{display:flex;flex-wrap:nowrap;gap:6px;margin-top:8px}
+.pc-acts .btn{white-space:nowrap;padding-left:11px;padding-right:11px;font-size:12.5px}
 .pc-acts .btn:not(.primary){background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.15);color:#15171B}
 .sid-bar{display:flex;gap:8px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);background:rgba(0,0,0,.25)}
 .sid-bar .search{flex:1;display:flex;align-items:center;gap:8px;height:34px;padding:0 11px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
 .sid-bar .search svg{width:14px;height:14px;color:var(--mist-3);flex:none}
 .sid-bar input{flex:1;background:none;border:0;font-size:13px;min-width:0}
 .sid-bar input::placeholder{color:var(--mist-3)}
+/* visitors get the card and the trick; the paste-your-page tools only appear with ?host=1 */
+.sid.lite .sid-bar{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:4;padding:0;border:0;background:none}
+.sid.lite .sid-bar .btn{height:26px;padding:0 12px;font-size:11px;opacity:.7;background:rgba(0,0,0,.35);backdrop-filter:blur(6px)}
+.sid.lite .sid-bar .btn:hover,.sid.lite .sid-bar .btn:focus-visible{opacity:1}
 @media (max-width:700px){
   /* on a phone the card is the point: drop the paste-a-link tools, keep one clear button */
-  .sid-bar .search,.sid-bar > .btn:nth-of-type(1){display:none}
+  .sid:not(.lite) .sid-bar .search,.sid:not(.lite) .sid-bar > .btn:nth-of-type(1){display:none}
   .sid-bar{padding:10px 12px}
-  .sid-bar .btn{flex:1;white-space:nowrap;justify-content:center}
+  .sid:not(.lite) .sid-bar .btn{flex:1;white-space:nowrap;justify-content:center}
 }
 .sid-drop{position:absolute;inset:10px;border-radius:16px;border:2px dashed rgba(255,201,51,.6);background:rgba(10,14,18,.85);display:none;place-content:center;text-align:center;gap:6px;z-index:5}
 .sid-drop b{font:400 34px var(--display);color:#FFE2A4}
@@ -7436,7 +7441,11 @@ registerApp({
   mount(body, win) {
     body.classList.add('sid');
     // on a phone, give the card the whole screen
-    if (innerWidth < 700) setTimeout(() => { if (!win.max) WM.toggleMax(win); }, 80);
+    // on desktop the 3D card is cramped at the default size, so it opens maximized too
+    setTimeout(() => { if (!win.max) WM.toggleMax(win); }, 80);
+    // ?host=1 keeps the paste-a-link / drop-a-file tools for Sid; visitors just get the card
+    const HOST = new URLSearchParams(location.search).get('host') === '1';
+    if (!HOST) body.classList.add('lite');
     // the real landing page: Sid's unreasonably long business card, shipped next to this file
     const CARD = { url: 'sids-card.html', builtin: true };
     const ACES = [
@@ -7453,11 +7462,11 @@ registerApp({
     const file = h('input', { type: 'file', accept: '.html,.htm,text/html', hidden: true });
     const viewBtn = h('button', { class: 'btn', onclick: () => setView(view === 'trick' ? 'page' : 'trick') });
     const clearBtn = h('button', { class: 'btn ghost', onclick: () => { Store.set('sid-page', null); Store.set('sid-url', null); page = CARD; frame.innerHTML = ''; setView('trick'); sync(); } }, 'Remove page');
-    const bar = h('div', { class: 'sid-bar' }, h('label', { class: 'search', html: GLYPH.clip }, url), h('button', { class: 'btn', onclick: () => file.click() }, 'Choose file'), viewBtn, clearBtn, file);
+    const bar = HOST ? h('div', { class: 'sid-bar' }, h('label', { class: 'search', html: GLYPH.clip }, url), h('button', { class: 'btn', onclick: () => file.click() }, 'Choose file'), viewBtn, clearBtn, file) : h('div', { class: 'sid-bar' }, viewBtn);
     const drop = h('div', { class: 'sid-drop' }, h('b', {}, 'Drop it'), h('span', {}, 'Your landing page moves in here.'));
     body.append(trick, frame, bar, drop);
     // a page you dropped in wins; otherwise the card. The trick always plays first.
-    let page = Store.get('sid-page', null) ? { html: Store.get('sid-page') } : Store.get('sid-url', null) ? { url: Store.get('sid-url') } : CARD;
+    let page = !HOST ? CARD : Store.get('sid-page', null) ? { html: Store.get('sid-page') } : Store.get('sid-url', null) ? { url: Store.get('sid-url') } : CARD;
     let view = 'page'; // Meet Sid opens straight on the card; the trick is one click away
     function load(p, note, show = true) {
       page = p; frame.innerHTML = '';
@@ -7491,7 +7500,7 @@ registerApp({
     function glass() { Wallpaper.setPaused(view === 'page' && !hidden); }
     function sync() { viewBtn.hidden = false; clearBtn.hidden = !!page.builtin; viewBtn.textContent = view === 'page' ? 'Show the card trick' : page.builtin ? 'Skip to the card' : 'Show my page'; }
     url.addEventListener('keydown', e => { if (e.key === 'Enter') { const v = url.value.trim(); if (!/^https?:\/\//i.test(v)) { url.select(); Toast.show({ title: 'That needs to be a web link', body: 'Start it with https://, or drop the .html file instead.', icon: ICONS.sid, color: '#F5E6C8', sound: false }); return; } Store.set('sid-url', v); Store.set('sid-page', null); load({ url: v }, 'Loaded from the link. It stays here next time.'); } });
-    const readFile = f => { if (!f) return; const r = new FileReader(); r.onload = () => { const html = String(r.result); let kept = true; try { localStorage.setItem('barsaat:sid-page', JSON.stringify(html)); Store.set('sid-url', null); } catch (e) { kept = false; } load({ html }, kept ? `${f.name} is saved. It will be here next time.` : `${f.name} is too big to remember, so it lasts until you close this window.`); }; r.readAsText(f); };
+    const readFile = f => { if (!f || !HOST) return; const r = new FileReader(); r.onload = () => { const html = String(r.result); let kept = true; try { localStorage.setItem('barsaat:sid-page', JSON.stringify(html)); Store.set('sid-url', null); } catch (e) { kept = false; } load({ html }, kept ? `${f.name} is saved. It will be here next time.` : `${f.name} is too big to remember, so it lasts until you close this window.`); }; r.readAsText(f); };
     file.onchange = () => readFile(file.files[0]);
     body.addEventListener('dragover', e => { e.preventDefault(); body.classList.add('dragging'); });
     body.addEventListener('dragleave', e => { if (!body.contains(e.relatedTarget)) body.classList.remove('dragging'); });
