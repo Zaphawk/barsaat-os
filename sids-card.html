@@ -4263,7 +4263,7 @@ AI sessions at every place I worked since 2023. Then WRM made it the job.
 My job is making everyone else’s job smaller. Starting with the boring parts.
 
 Trained the company over 100+ hours. The hackathon was my favourite bit: 200+ prototypes.`,link:{label:`See the tools`,href:Bl.site}}},
-{id:`next`,short:`yours`,title:`Next chapter: your problem.`,numeral:`७`,years:`next`,front:{kind:`proof`,name:`Siddhant Sethi`,role:`Next: your problem`,org:`Method: go first.`,big:`?`,label:`hours a week your team loses to the boring part.`},back:{photo:{src:zl,focus:[.5,.35],caption:`Kedarnath. 32 km.`},pen:`You bring the problem.
+{id:`next`,short:`yours`,title:`Not printed yet. You write this one.`,numeral:`७`,years:`next`,front:{kind:`proof`,name:`Siddhant Sethi`,role:`Next: your problem`,org:`Method: go first.`,big:`?`,label:`hours a week your team loses to the boring part.`},back:{photo:{src:zl,focus:[.5,.35],caption:`Kedarnath. 32 km.`},pen:`You bring the problem.
 
 I sit with the people who have it until I understand the work.
 
@@ -4318,8 +4318,8 @@ Q=110,Ul=`var(--f-serif)`,Wl=`var(--f-display)`,Gl=`var(--f-mono)`,Kl=`var(--f-h
       <p class="ui-end-line">${du(Hl.end)}</p>
       <div class="ui-end-actions">
         <a class="btn btn-ink ui-send" href="mailto:${du(Bl.email)}?subject=A%20problem%20to%20solve">Send me the problem</a>
+        <a class="btn ui-tools" href="#cv-official">See the tools <span aria-hidden="true">↓</span></a>
         <a class="btn" href="${du(Bl.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="#cv">Read the CV <span aria-hidden="true">↓</span></a>
         <a class="btn ui-os" href="index.html" data-os-exit>Back to Barsaat OS <span aria-hidden="true">→</span></a>
       </div>
       <button type="button" class="ui-again">Unfold my business card</button>
@@ -4342,7 +4342,7 @@ let G=o(`.ui-cap-game`),gl=o(`.ui-glint`),toast=o(`.ui-cap-toast`),toastBig=toas
 function capIndex(e,t){return e===1?t?1:0:e>=2&&e<=6?e:-1}
 function updateGame(e,t){capCurrent=capIndex(e,t),G.dataset.chapter=String(e),G.dataset.side=t?`back`:`front`,gl.hidden=capCurrent<0||unlocked.has(capCurrent),capBar&&(capBar.style.width=`${Math.min(7,Math.max(0,e))/7*100}%`),assembly.classList.toggle(`show`,e===7&&unlocked.size===7)}
 gl.addEventListener(`click`,()=>{if(capCurrent<0)return;unlocked.add(capCurrent);let e=caps[capCurrent];toastBig.textContent=e.big,toastSmall.textContent=`${e.small} · ${unlocked.size}/7`,toast.classList.add(`show`),gl.hidden=!0,clearTimeout(toastTimer),toastTimer=setTimeout(()=>toast.classList.remove(`show`),2400)});
-m.addEventListener(`click`,()=>t()),o(`.ui-again`).addEventListener(`click`,()=>n(0)),w.addEventListener(`click`,()=>{let e=w.getAttribute(`aria-pressed`)!==`true`;w.setAttribute(`aria-pressed`,String(e)),w.textContent=e?`Sound on`:`Sound off`,r(e),e&&Ku(.7)}),e.querySelectorAll(`a[href="#cv"]`).forEach(e=>e.addEventListener(`click`,t=>{t.preventDefault();scrollTo({top:document.getElementById(`hero`).offsetHeight,behavior:`smooth`}),history.replaceState(null,``,`#cv`)}));
+m.addEventListener(`click`,()=>t()),o(`.ui-again`).addEventListener(`click`,()=>n(0)),w.addEventListener(`click`,()=>{let e=w.getAttribute(`aria-pressed`)!==`true`;w.setAttribute(`aria-pressed`,String(e)),w.textContent=e?`Sound on`:`Sound off`,r(e),e&&Ku(.7)}),e.querySelectorAll(`a[href="#cv"]`).forEach(e=>e.addEventListener(`click`,t=>{t.preventDefault();scrollTo({top:document.getElementById(`hero`).offsetHeight,behavior:`smooth`}),history.replaceState(null,``,`#cv`)}));o(`.ui-tools`).addEventListener(`click`,t=>{t.preventDefault();let n=document.getElementById(`cv-tab-official`);n&&n.click(),setTimeout(()=>{let r=document.querySelector(`#cv .cv-tools`);r&&r.scrollIntoView({behavior:`smooth`,block:`start`})},450)});
 let T=``,flippedEver=!1,nx,go;'ResizeObserver'in window&&new ResizeObserver(()=>document.documentElement.style.setProperty(`--bar-h`,_.offsetHeight+`px`)).observe(_);m.classList.add(`nudge`);m.title=`Click the card, this button, or press F`;return{update({p:e,flip:t,tape:n,flatUntil:r}){
 let w=Math.round(e),E=Math.min(a-1,Math.max(0,Math.round(e))),D=Vl[E],O=e<a-.5,k=`${E}|${t>.5}|${O}`;
 k!==T&&(T=k,
@@ -4680,6 +4680,9 @@ bu=e=>{let{start:t,end:n,bendYear:r,bendPct:i}=_u;return e<=r?(e-t)/(r-t)*i:i+(e
     .ui-end-actions .ui-os{background:transparent;color:#f6ead6;border-color:#f6ead680}
     .ui-end-actions .ui-os:hover,.ui-end-actions .ui-os:focus-visible{background:#f6ead6;color:#1f1a15;border-color:#f6ead6}
     #cv .cv-os-link{margin-left:auto}
+    #cv .cv-tools{scroll-margin-top:140px}
+    /* Phone end screen: the photo sat on the closing line; lay it across the card's lower-right corner instead */
+    @media (max-width:700px){.ui-polaroid{top:calc(50vh + 16vw - 40px);right:-3vw}}
     .ui-cap-timeline{display:none!important}
     html.standalone [data-os-exit]{display:none!important}
     #webgl-fallback[hidden]{display:none}
