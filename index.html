@@ -627,6 +627,7 @@ mark{background:rgba(255,201,51,.32);color:#fff;border-radius:3px;padding:0 1px}
   .sid:not(.lite) .sid-bar .btn{flex:1;white-space:nowrap;justify-content:center}
   /* the card's Sound on / Skip to CV pills fill the top-right on a phone; sit the trick button under them */
   .sid.lite .sid-bar{top:66px;left:auto;right:16px;transform:none}
+  .sid.lite.at-end .sid-bar{visibility:hidden}
 }
 .sid-drop{position:absolute;inset:10px;border-radius:16px;border:2px dashed rgba(255,201,51,.6);background:rgba(10,14,18,.85);display:none;place-content:center;text-align:center;gap:6px;z-index:5}
 .sid-drop b{font:400 34px var(--display);color:#FFE2A4}
@@ -7484,6 +7485,9 @@ registerApp({
         // "Back to Barsaat OS" at the end of the card: put the card away and show the desktop
         const onExit = e => { if (e.source === f.contentWindow && e.data && e.data.type === 'sid-card-exit') { removeEventListener('message', onExit); WM.close('sid'); } };
         addEventListener('message', onExit);
+        // the card says when its closing screen is up; on a phone the trick button would sit on the closing line
+        const onEnd = e => { if (e.source === f.contentWindow && e.data && e.data.type === 'sid-card' && e.data.event === 'end') body.classList.toggle('at-end', !!e.data.on); };
+        addEventListener('message', onEnd);
         setTimeout(() => wait.remove(), 15000);
       }
       if (show) setView('page');
